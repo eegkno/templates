@@ -8,11 +8,6 @@ Documentation in [https://cookiecutter.readthedocs.io/en/1.7.2/](https://cookiec
 
 We are going to design a python template with the structure shwon below. The advantage of using a template is to aviod doing the same process many times. 
 
-
-Makefile                       <- File containing shell commands
-requirements-dev.txt  <- List of python libraries for development
-requirements.txt         <- List of python libraries for production
-
 ```
 library-template
 |-- {{cookiecutter.repo_name}}
@@ -31,6 +26,10 @@ library-template
 |-- README.md
 `-- cookiecutter.json
 ```  
+Makefile                       <- File containing shell commands
+requirements-dev.txt  <- List of python libraries for development
+requirements.txt         <- List of python libraries for production
+
 
 The files that are necessary to create a template are:
 - library-template/cookiecutter.json
@@ -55,6 +54,8 @@ mkdir -p library-template/
 
 ## Package configuration
 
+Create a small python package.
+
 ### Create structure
 
 ```bash
@@ -65,7 +66,6 @@ touch library-template/{{cookiecutter.repo_name}}/{{cookiecutter.repo_name}}/dat
 touch library-template/{{cookiecutter.repo_name}}/{{cookiecutter.repo_name}}/models/__init__.py
 touch library-template/{{cookiecutter.repo_name}}/{{cookiecutter.repo_name}}/utils/__init__.py
 touch library-template/{{cookiecutter.repo_name}}/{{cookiecutter.repo_name}}/__init__.py
-
 ```
 
 
@@ -84,10 +84,12 @@ touch library-template/{{cookiecutter.repo_name}}/{{cookiecutter.repo_name}}/__i
 
 Create env and install libraries
 
+This creates a conda environment named as {{cookiecutter.repo_name}}
+
 ```bash
 conda update -n base conda
-conda create --prefix  $HOME/.conda/envs/{{ cookiecutter.repo_name }}
-conda activate $HOME/.conda/envs/{{ cookiecutter.repo_name }}
+conda create --prefix  $HOME/.conda/envs/{{cookiecutter.repo_name}}
+conda activate $HOME/.conda/envs/{{cookiecutter.repo_name}}
 pip install -r requirements.txt
 ```
 
@@ -111,23 +113,26 @@ datalink:
 modellink:
 	mkdir models
 
-# This creates a conda environment named as {{ cookiecutter.repo_name }}
-
 # Install python libraries for development
 pydev:
 
 	pip install -r requirements-dev.txt
 	pip install ipykernel
-	ipython kernel install --user --name {{ cookiecutter.repo_name }}
+	ipython kernel install --user --name {{cookiecutter.repo_name}}
 
 # Any other Linux libraries to be installed
 install:
 	echo "To be defined"
 ```
 
-
+**library-template/{{cookiecutter.repo_name}}/setup.py**
 ```python
 """Setup file for ingredients."""
+# This file will contain all your package metadata information.
+# There are only three required fields: name, version, and packages.
+# The name field must be unique if you wish to publish your package on the Python Package # Index (PyPI). The version field keeps track of different releases of the project. The 
+# packages field describes where you’ve put the Python source code within your project.
+
 import pathlib
 import setuptools
 
@@ -136,15 +141,12 @@ readme = (current_dir / "README.md").read_text()
 
 setuptools.setup(
 	name={{cookiecutter.project_name}},
-	version="0.0.1",
+	version={{cookiecutter.version}},
 	description={{cookiecutter.description}},
 	long_description=readme,
 	long_description_content_type="text/markdown",
-	url="https://github.com/eegkno/ingredients.git",
-	author="Edgar Garcia Cano",
-	author_email="eegkno@gmail.com",
 	classifiers=["Programming Language :: Python"],
-	packages=setuptools.find_packages(),
+	packages=setuptools.find_packages(include=['{{cookiecutter.project_name}}', '{{cookiecutter.project_name}}.*']),
 	python_requires=">=3.7",
 )
 ```
