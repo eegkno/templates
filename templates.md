@@ -151,6 +151,33 @@ setuptools.setup(
 )
 ```
 
+**library-template/{{cookiecutter.repo_name}}/requirements.txt**
+```text
+####### requirements.txt #######
+# Source: https://pip.pypa.io/en/stable/reference/pip_install/#requirements-file-format
+###### Requirements without Version Specifiers ######
+#nose
+#nose-cov
+#beautifulsoup4
+
+###### Requirements with Version Specifiers ######
+# See https://www.python.org/dev/peps/pep-0440/#version-specifiers
+#docopt == 0.6.1 # Version Matching. Must be version 0.6.1
+#keyring >= 4.1.1  # Minimum version 4.1.1
+#coverage != 3.5 # Version Exclusion. Anything except version 3.5
+#Mopidy-Dirble ~= 1.1  # Compatible release. Same as >= 1.1, == 1.*
+
+###### Refer to other requirements files ######
+#-r other-requirements.txt
+pandas>=1.0.0
+```
+
+**library-template/{{cookiecutter.repo_name}}/requirements-dev.txt**
+```
+pylint
+black
+```
+
 ### Readme for the template
 
 **library-template/README.md**
