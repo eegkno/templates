@@ -27,7 +27,9 @@ library-template
 `-- cookiecutter.json
 ```  
 Makefile                       <- File containing shell commands
+
 requirements-dev.txt  <- List of python libraries for development
+
 requirements.txt         <- List of python libraries for production
 
 
